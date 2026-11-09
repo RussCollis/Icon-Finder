@@ -4,7 +4,8 @@ import UniformTypeIdentifiers
 
 struct ContentView: View {
     @State private var model = IconExtractorModel()
-    @State private var importTarget: ImportTarget?
+    @State private var importTarget: ImportTarget = .searchFolders
+    @State private var isImporterPresented = false
 
     private enum ImportTarget {
         case searchFolders
@@ -33,11 +34,10 @@ struct ContentView: View {
                 }
             }
         }
+        // importTarget is kept separate from the presentation flag because the
+        // importer resets isPresented before the completion handler runs.
         .fileImporter(
-            isPresented: Binding(
-                get: { importTarget != nil },
-                set: { if !$0 { importTarget = nil } }
-            ),
+            isPresented: $isImporterPresented,
             allowedContentTypes: [.folder],
             allowsMultipleSelection: importTarget == .searchFolders
         ) { result in
@@ -49,8 +49,6 @@ struct ContentView: View {
                 if let url = urls.first {
                     model.outputFolder = url
                 }
-            case nil:
-                break
             }
         }
     }
@@ -81,6 +79,7 @@ struct ContentView: View {
 
                 Button("Add Folder…", systemImage: "plus") {
                     importTarget = .searchFolders
+                    isImporterPresented = true
                 }
             }
             .disabled(model.isRunning)
@@ -94,6 +93,7 @@ struct ContentView: View {
                 HStack {
                     Button("Choose…") {
                         importTarget = .outputFolder
+                        isImporterPresented = true
                     }
                     .disabled(model.isRunning)
 
