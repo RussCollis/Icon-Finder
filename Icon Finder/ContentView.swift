@@ -13,11 +13,15 @@ struct ContentView: View {
     }
 
     var body: some View {
-        NavigationSplitView {
-            settingsForm
-                .navigationSplitViewColumnWidth(min: 320, ideal: 360)
-        } detail: {
-            logView
+        HStack(spacing: 0) {
+            brandingPanel
+
+            NavigationSplitView {
+                settingsForm
+                    .navigationSplitViewColumnWidth(min: 320, ideal: 360)
+            } detail: {
+                logView
+            }
         }
         .navigationTitle("IconFinder")
         .toolbar {
@@ -27,9 +31,14 @@ struct ContentView: View {
                         model.stop()
                     }
                 } else {
-                    Button("Extract Icons", systemImage: "play.fill") {
+                    Button("Start Scan", systemImage: "magnifyingglass") {
                         model.start()
                     }
+                    .labelStyle(.titleAndIcon)
+                    .buttonStyle(.borderedProminent)
+                    .tint(.blue)
+                    .controlSize(.large)
+                    .keyboardShortcut(.defaultAction)
                     .disabled(!model.canStart)
                 }
             }
@@ -124,6 +133,54 @@ struct ContentView: View {
         .formStyle(.grouped)
     }
 
+    // MARK: - Branding
+
+    /// Version string built from the bundle's marketing version and build number, e.g. "Version 1.0 (1)".
+    private var versionText: String {
+        let info = Bundle.main.infoDictionary
+        let version = info?["CFBundleShortVersionString"] as? String ?? "—"
+        let build = info?["CFBundleVersion"] as? String ?? "—"
+        return "Version \(version) (\(build))"
+    }
+
+    private var brandingPanel: some View {
+        VStack(spacing: 16) {
+            Image("Logo")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 140, height: 140)
+                .shadow(color: .black.opacity(0.25), radius: 8, y: 4)
+                .accessibilityHidden(true)
+
+            Text("IconFinder")
+                .font(.title2.bold())
+
+            Spacer()
+
+            Text(versionText)
+                .font(.caption.weight(.semibold))
+                .opacity(0.9)
+        }
+        .foregroundStyle(.white)
+        .padding(.top, 60)
+        .padding(.bottom, 20)
+        .frame(width: 200)
+        .frame(maxHeight: .infinity)
+        // Light sky blue to deep navy, so the blue logo sits on the lighter end.
+        .background {
+            LinearGradient(
+                colors: [
+                    Color(red: 0.62, green: 0.82, blue: 1.00),
+                    Color(red: 0.22, green: 0.52, blue: 0.95),
+                    Color(red: 0.06, green: 0.17, blue: 0.50),
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+        }
+    }
+
     // MARK: - Log
 
     private var logView: some View {
@@ -139,7 +196,7 @@ struct ContentView: View {
                     ContentUnavailableView(
                         "No Activity Yet",
                         systemImage: "app.dashed",
-                        description: Text("Choose your search locations and output folder, then click Extract Icons.")
+                        description: Text("Choose your search locations and output folder, then click Start Scan.")
                     )
                 }
             }

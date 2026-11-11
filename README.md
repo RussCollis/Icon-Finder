@@ -40,7 +40,7 @@ Each PNG is the largest image in the source `.icns` file. Names keep only letter
 
 ## Installation
 
-Run `IconFinder-1.0.pkg`. It installs `IconFinder.app` into `/Applications`.
+Run `IconFinder-1.1.pkg`. It installs `IconFinder.app` into `/Applications`.
 
 > **Note:** current builds are ad-hoc signed and not notarized. On Macs other than the one that built them, Gatekeeper will block the app. Either deploy through Jamf Pro / MDM, or right-click the app, choose **Open**, and approve it in **System Settings → Privacy & Security**.
 
