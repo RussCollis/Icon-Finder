@@ -1,5 +1,7 @@
 # IconFinder
 
+[![Buy me a coffee](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=&slug=russcollis&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff)](https://www.buymeacoffee.com/russcollis)
+
 A macOS app that finds application icons on your Mac and exports them as PNG files. It scans `.app` bundles, `.pkg` installers and `.dmg` disk images.
 
 IconFinder is a SwiftUI version of the `extract_mac_app_icons.sh` script from [Jamf-Scripts](https://github.com/RussCollis/Jamf-Scripts). It's useful for collecting icons for Jamf Pro Self Service, policies and other admin tooling.
