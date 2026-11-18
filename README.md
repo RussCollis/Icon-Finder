@@ -1,5 +1,8 @@
 # IconFinder
 
+**Version:** 1.1.1
+**Owner:** Russell Collis
+
 [![Buy me a coffee](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=&slug=russcollis&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff)](https://www.buymeacoffee.com/russcollis)
 
 If this app saved you time or gave you a foundation to work from, please consider buying me a coffee - cheers :)

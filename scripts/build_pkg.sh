@@ -18,11 +18,16 @@ set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 DIST_DIR="$REPO_DIR/dist"
-WORK_DIR="$(mktemp -d /tmp/IconFinderPkg.XXXXXX)"
+# Persistent (gitignored) work dir so a slow notarization can be resumed
+WORK_DIR="$REPO_DIR/build/pkg"
 DERIVED_DIR="$WORK_DIR/DerivedData"
-PKG_ID="com.russellcollis.IconFinder.pkg"
+PKG_ID="com.russcollis.IconFinder.pkg"
+APP_IDENTITY="Developer ID Application: Russell Collis (UM5LY5579J)"
+INSTALLER_IDENTITY="Developer ID Installer: Russell Collis (UM5LY5579J)"
+NOTARY_PROFILE="notary"
 
-trap 'rm -rf "$WORK_DIR"' EXIT
+rm -rf "$WORK_DIR"
+mkdir -p "$WORK_DIR"
 
 echo "🔨 Building IconFinder (Release)..."
 xcodebuild \
@@ -37,7 +42,9 @@ APP="$DERIVED_DIR/Build/Products/Release/IconFinder.app"
 VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$APP/Contents/Info.plist")
 MIN_OS=$(/usr/libexec/PlistBuddy -c "Print :LSMinimumSystemVersion" "$APP/Contents/Info.plist")
 
-codesign --verify --deep --strict "$APP"
+echo "🔏 Signing app with Developer ID..."
+codesign --force --options runtime --timestamp --sign "$APP_IDENTITY" "$APP"
+codesign --verify --strict --verbose=2 "$APP"
 
 echo "📦 Packaging IconFinder $VERSION..."
 mkdir -p "$WORK_DIR/root" "$WORK_DIR/resources" "$DIST_DIR"
@@ -74,11 +81,21 @@ EOF
 PKG_OUT="$DIST_DIR/IconFinder-$VERSION.pkg"
 rm -rf "$PKG_OUT" "$DIST_DIR/IconFinder.app"
 productbuild \
+    --sign "$INSTALLER_IDENTITY" \
+    --timestamp \
     --distribution "$WORK_DIR/distribution.xml" \
     --resources "$WORK_DIR/resources" \
     --package-path "$WORK_DIR" \
     "$PKG_OUT"
+
+# Notarizing the pkg also notarizes the nested app, so both can be stapled
+echo "📨 Notarizing package..."
+xcrun notarytool submit "$PKG_OUT" --keychain-profile "$NOTARY_PROFILE" --wait
+xcrun stapler staple "$PKG_OUT"
+xcrun stapler staple "$APP"
 ditto "$APP" "$DIST_DIR/IconFinder.app"
+spctl -a -vvv -t install "$PKG_OUT"
+spctl -a -vvv "$DIST_DIR/IconFinder.app"
 
 echo "✅ Done:"
 echo "   $DIST_DIR/IconFinder.app"
