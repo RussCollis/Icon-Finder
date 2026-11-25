@@ -1,6 +1,8 @@
+<p align="center"><img src="icon.png" width="128" alt="IconFinder icon"></p>
+
 # IconFinder
 
-**Version:** 1.1.1
+**Version:** 1.1.2
 **Owner:** Russell Collis
 
 [![Buy me a coffee](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=&slug=russcollis&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff)](https://www.buymeacoffee.com/russcollis)
@@ -47,9 +49,9 @@ Each PNG is the largest image in the source `.icns` file. Names keep only letter
 
 ## Installation
 
-Run `IconFinder-1.1.pkg`. It installs `IconFinder.app` into `/Applications`.
+Run `dist/IconFinder-1.1.2.pkg`. It installs `IconFinder.app` into `/Applications`.
 
-> **Note:** current builds are ad-hoc signed and not notarized. On Macs other than the one that built them, Gatekeeper will block the app. Either deploy through Jamf Pro / MDM, or right-click the app, choose **Open**, and approve it in **System Settings → Privacy & Security**.
+> Builds are signed with a Developer ID, notarized by Apple and stapled, so Gatekeeper allows them on any Mac.
 
 ## Building from source
 

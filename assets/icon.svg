@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2B4AA8"/>
+      <stop offset="1" stop-color="#0E1E4D"/>
+    </linearGradient>
+    <linearGradient id="hi" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3F78EE"/>
+      <stop offset="1" stop-color="#2F67E0"/>
+    </linearGradient>
+    <clipPath id="lens"><circle cx="512" cy="512" r="166"/></clipPath>
+  </defs>
+  <!-- Background: macOS icon grid rounded square -->
+  <rect x="100" y="100" width="824" height="824" rx="185" fill="url(#bg)"/>
+  <!-- App tile grid in panel tints -->
+  <g fill="#AEBBDD" fill-opacity="0.22" stroke="#AEBBDD" stroke-opacity="0.35" stroke-width="4">
+    <rect x="207" y="207" width="170" height="170" rx="40"/>
+    <rect x="427" y="207" width="170" height="170" rx="40"/>
+    <rect x="647" y="207" width="170" height="170" rx="40"/>
+    <rect x="207" y="427" width="170" height="170" rx="40"/>
+    <rect x="647" y="427" width="170" height="170" rx="40"/>
+    <rect x="207" y="647" width="170" height="170" rx="40"/>
+    <rect x="427" y="647" width="170" height="170" rx="40"/>
+    <rect x="647" y="647" width="170" height="170" rx="40"/>
+  </g>
+  <!-- Lens glass -->
+  <circle cx="512" cy="512" r="166" fill="#FFFFFF" fill-opacity="0.14"/>
+  <!-- Found tile (primary blue) inside the lens -->
+  <rect x="417" y="417" width="190" height="190" rx="46" fill="url(#hi)"/>
+  <path d="M512 452 C520 494 530 504 572 512 C530 520 520 530 512 572 C504 530 494 520 452 512 C494 504 504 494 512 452 Z" fill="#FFFFFF"/>
+  <!-- Handle (update orange) -->
+  <line x1="652" y1="652" x2="790" y2="790" stroke="#FFA41B" stroke-width="64" stroke-linecap="round"/>
+  <!-- Lens ring -->
+  <circle cx="512" cy="512" r="188" fill="none" stroke="#FFFFFF" stroke-width="44"/>
+</svg>
